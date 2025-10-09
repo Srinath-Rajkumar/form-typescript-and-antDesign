@@ -94,9 +94,9 @@ function SignUpForm() {
                 <Col span={12}>
                   <Form.Item
                     name="firstName"
-                    className="!mb-2"
+                    className="!mb-5"
                     rules={[{ required: true, message: "First Name required" }]}
-                    extra={
+                    help={
                       !formValues.firstName &&
                       form.getFieldError("firstName").length === 0 ? (
                         <span className="text-xs">
@@ -111,11 +111,11 @@ function SignUpForm() {
                 <Col span={12}>
                   <Form.Item
                     name="surname"
-                    className="!mb-2"
+                    className="!mb-5"
                     rules={[
                       { required: true, message: "Second name required" },
                     ]}
-                    extra={
+                    help={
                       !formValues.surname &&
                       form.getFieldError("surname").length === 0 ? (
                         <span className="text-xs">
@@ -134,66 +134,76 @@ function SignUpForm() {
                 Date of Birth <span className="text-red-500">*</span>
               </label>
               <div className="flex gap-1 ">
-                <Select
-                  defaultValue="Day"
-                  // onChange={handleChange}
-                  options={dayOptions}
-                  className="w-full"
-                />
-                <Select
-                  defaultValue="Month"
-                  // onChange={handleChange}
-                  options={monthOptions}
-                  className="w-full"
-                />
-                <Select
-                  defaultValue="Year"
-                  className="w-full"
-                  // onChange={handleChange}
-                  options={yearOptions}
-                />
+                <Form.Item
+                  name={["dateOfBirth", "day"]}
+                  rules={[{ required: true, message: "Day required" }]}
+                  className="w-full !mb-0"
+                >
+                  <Select placeholder="Day" options={dayOptions} />
+                </Form.Item>
+                <Form.Item
+                  name={["dateOfBirth", "month"]}
+                  rules={[{ required: true, message: "Month required" }]}
+                  className="w-full !mb-0"
+                >
+                  <Select placeholder="Month" options={monthOptions} />
+                </Form.Item>
+                <Form.Item
+                  name={["dateOfBirth", "year"]}
+                  rules={[{ required: true, message: "Year required" }]}
+                  className="w-full !mb-0"
+                >
+                  <Select placeholder="Year" options={yearOptions} />
+                </Form.Item>
               </div>
             </div>
             <div id="gender" className="mt-2.5">
-              <Form.Item<SignUpFormData>>
-                <label className="font-semibold">
-                  Gender <span className="text-red-500">*</span>
-                </label>
-                <div className="gap-2.5 mt-2.5">
-                  <Radio.Group className="!flex">
-                    <Radio
-                      value="male"
-                      className="!p-2 border rounded-sm border-gray-300 flex-1  flex-row-reverse justify-between"
-                    >
-                      Male
-                    </Radio>
-                    <Radio
-                      value="female"
-                      className="!p-2 border rounded-sm border-gray-300 flex-1  flex-row-reverse justify-between  "
-                    >
-                      Female
-                    </Radio>
-                    <Radio
-                      value="others"
-                      className="!p-2 border rounded-sm border-gray-300 flex-1  flex-row-reverse justify-between  "
-                    >
-                      Others
-                    </Radio>
-                  </Radio.Group>
+              <Form.Item
+                name="gender"
+                rules={[
+                  { required: true, message: "Please select your gender" },
+                ]}
+              >
+                <div>
+                  <label className="font-semibold">
+                    Gender <span className="text-red-500">*</span>
+                  </label>
+                  <div className="gap-2.5 mt-2.5">
+                    <Radio.Group className="!flex">
+                      <Radio
+                        value="male"
+                        className="!p-2 border rounded-sm border-gray-300 flex-1  flex-row-reverse justify-between"
+                      >
+                        Male
+                      </Radio>
+                      <Radio
+                        value="female"
+                        className="!p-2 border rounded-sm border-gray-300 flex-1  flex-row-reverse justify-between  "
+                      >
+                        Female
+                      </Radio>
+                      <Radio
+                        value="others"
+                        className="!p-2 border rounded-sm border-gray-300 flex-1  flex-row-reverse justify-between  "
+                      >
+                        Others
+                      </Radio>
+                    </Radio.Group>
+                  </div>
                 </div>
               </Form.Item>
             </div>
             <div id="contact" className="mt-2.5">
               <Form.Item
                 name="contact"
-                className="!mb-2"
+                className="!mb-5"
                 rules={[
                   {
                     required: true,
                     message: "Phone number or Email is required",
                   },
                 ]}
-                extra={
+                help={
                   !formValues.contact &&
                   form.getFieldError("contact").length === 0 ? (
                     <span className="text-xs">
@@ -208,9 +218,9 @@ function SignUpForm() {
             <div id="password">
               <Form.Item
                 name="password"
-                className="!mb-2"
+                className="!mb-5"
                 rules={[{ required: true, message: "Password required" }]}
-                extra={
+                help={
                   !formValues.password &&
                   form.getFieldError("password").length === 0 ? (
                     <span className="text-xs">
@@ -222,7 +232,7 @@ function SignUpForm() {
                 <Input.Password placeholder="New Password" />
               </Form.Item>
             </div>
-            <div id="button" className="p-3.5 w-full flex justify-center">
+            <div id="button" className="p-3 w-full flex justify-center">
               <Button
                 type="primary"
                 htmlType="submit"
