@@ -1,6 +1,3 @@
-// import { Button, Flex, Tooltip } from "antd";
-// import { SearchOutlined } from "@ant-design/icons";
-
 import "./App.css";
 import EventRegistrationForm from "./Forms/EventRegistrationForm";
 import SignUpForm from "./Forms/SignUpForm";
@@ -8,8 +5,10 @@ import SignUpForm from "./Forms/SignUpForm";
 function App() {
   return (
     <>
-      <EventRegistrationForm />
-      {/* <SignUpForm /> */}
+      <div className="bg-gray-100  pt-5 pb-5">
+        <EventRegistrationForm />
+        <SignUpForm />
+      </div>
     </>
   );
 }
