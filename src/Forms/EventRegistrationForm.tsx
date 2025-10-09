@@ -1,12 +1,5 @@
-import {
-  Form,
-  Input,
-  Button,
-  InputNumber,
-  type FormProps,
-  message,
-} from "antd";
-
+import { Form, Input, Button, type FormProps, message } from "antd";
+import { useState } from "react";
 interface FieldTypes {
   firstName: string;
   lastName: string;
@@ -16,16 +9,18 @@ interface FieldTypes {
 
 function EventRegistrationForm() {
   const [messageApi, contextHolder] = message.useMessage();
-
+  const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
 
   const onFinish: FormProps<FieldTypes>["onFinish"] = (values) => {
-    console.log("Success:", values);
-    messageApi.open({
-      type: "success",
-      content: "From successfully submitted",
-    });
-    form.resetFields();
+    setLoading(true);
+
+    setTimeout(() => {
+      console.log("Success:", values);
+      messageApi.success("Form successfully submitted");
+      form.resetFields();
+      setLoading(false);
+    }, 1000);
   };
 
   return (
@@ -101,11 +96,6 @@ function EventRegistrationForm() {
                     },
                   ]}
                 >
-                  {/* <InputNumber
-                    placeholder="Ex : 7848596974"
-                    style={{ width: "100%" }}
-                    controls={false}
-                  /> */}
                   <Input
                     placeholder="Ex : 7848596974"
                     onKeyDown={(event) => {
@@ -122,7 +112,7 @@ function EventRegistrationForm() {
             </div>
             <div id="sumbitButton" className="flex justify-center">
               <Form.Item>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={loading}>
                   Register for Event
                 </Button>
               </Form.Item>
