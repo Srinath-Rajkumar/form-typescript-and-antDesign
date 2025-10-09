@@ -2,8 +2,6 @@ import { Button, Col, Divider, Form, Input, Radio, Row, Select } from "antd";
 import { useState } from "react";
 
 function SignUpForm() {
-  const [isButtonDisabled, setIsButtonDisabled] = useState<boolean>(false);
-
   interface SignUpFormData {
     firstName: string;
     surname: string;
@@ -16,11 +14,61 @@ function SignUpForm() {
     contact: string;
     password: string;
   }
+
   const [form] = Form.useForm<SignUpFormData>();
+  const [formValues, setFormValues] = useState<Partial<SignUpFormData>>({});
 
   const handleSubmit = (values: SignUpFormData) => {
     console.log("Form values:", values);
   };
+
+  const handleValuesChange = (
+    changedValues: any,
+    allValues: Partial<SignUpFormData>
+  ) => {
+    setFormValues(allValues);
+  };
+
+  const isFormValid = () => {
+    return (
+      formValues.firstName &&
+      formValues.surname &&
+      formValues.dateOfBirth?.day &&
+      formValues.dateOfBirth?.month &&
+      formValues.dateOfBirth?.year &&
+      formValues.gender &&
+      formValues.contact &&
+      formValues.password
+    );
+  };
+
+  const dayOptions = Array.from({ length: 31 }, (_, i) => ({
+    value: String(i + 1),
+    label: String(i + 1),
+  }));
+
+  const monthOptions = [
+    { value: "1", label: "January" },
+    { value: "2", label: "February" },
+    { value: "3", label: "March" },
+    { value: "4", label: "April" },
+    { value: "5", label: "May" },
+    { value: "6", label: "June" },
+    { value: "7", label: "July" },
+    { value: "8", label: "August" },
+    { value: "9", label: "September" },
+    { value: "10", label: "October" },
+    { value: "11", label: "November" },
+    { value: "12", label: "December" },
+  ];
+
+  const currentYear = new Date().getFullYear();
+
+  const yearOptions = Array.from({ length: 75 }, (_, i) => ({
+    value: String(currentYear - i),
+    label: String(currentYear - i),
+  }));
+
   return (
     <>
       <div
@@ -35,17 +83,26 @@ function SignUpForm() {
         </div>
         <Divider />
         <div id="form" className="px-2.5">
-          <Form form={form} size="large" onFinish={handleSubmit}>
+          <Form
+            form={form}
+            size="large"
+            onFinish={handleSubmit}
+            onValuesChange={handleValuesChange}
+          >
             <div id="name">
               <Row gutter={10}>
                 <Col span={12}>
                   <Form.Item
                     name="firstName"
+                    className="!mb-2"
                     rules={[{ required: true, message: "First Name required" }]}
                     extra={
-                      <span className="text-xs">
-                        <span className="text-red-500">*</span> Required
-                      </span>
+                      !formValues.firstName &&
+                      form.getFieldError("firstName").length === 0 ? (
+                        <span className="text-xs">
+                          <span className="text-red-500">*</span> Required
+                        </span>
+                      ) : null
                     }
                   >
                     <Input placeholder="First name" />
@@ -53,14 +110,18 @@ function SignUpForm() {
                 </Col>
                 <Col span={12}>
                   <Form.Item
-                    name="surename"
+                    name="surname"
+                    className="!mb-2"
                     rules={[
-                      { required: true, message: "second name required" },
+                      { required: true, message: "Second name required" },
                     ]}
                     extra={
-                      <span className="text-xs">
-                        <span className="text-red-500">*</span> Required
-                      </span>
+                      !formValues.surname &&
+                      form.getFieldError("surname").length === 0 ? (
+                        <span className="text-xs">
+                          <span className="text-red-500">*</span> Required
+                        </span>
+                      ) : null
                     }
                   >
                     <Input placeholder="Sure name" />
@@ -76,20 +137,20 @@ function SignUpForm() {
                 <Select
                   defaultValue="Day"
                   // onChange={handleChange}
-                  options={[]}
+                  options={dayOptions}
                   className="w-full"
                 />
                 <Select
                   defaultValue="Month"
                   // onChange={handleChange}
-                  options={[]}
+                  options={monthOptions}
                   className="w-full"
                 />
                 <Select
                   defaultValue="Year"
                   className="w-full"
                   // onChange={handleChange}
-                  options={[]}
+                  options={yearOptions}
                 />
               </div>
             </div>
@@ -125,6 +186,7 @@ function SignUpForm() {
             <div id="contact" className="mt-2.5">
               <Form.Item
                 name="contact"
+                className="!mb-2"
                 rules={[
                   {
                     required: true,
@@ -132,9 +194,12 @@ function SignUpForm() {
                   },
                 ]}
                 extra={
-                  <span className="text-xs">
-                    <span className="text-red-500">*</span> Required
-                  </span>
+                  !formValues.contact &&
+                  form.getFieldError("contact").length === 0 ? (
+                    <span className="text-xs">
+                      <span className="text-red-500">*</span> Required
+                    </span>
+                  ) : null
                 }
               >
                 <Input placeholder="Phone number or Email Address" />
@@ -143,11 +208,15 @@ function SignUpForm() {
             <div id="password">
               <Form.Item
                 name="password"
+                className="!mb-2"
                 rules={[{ required: true, message: "Password required" }]}
                 extra={
-                  <span className="text-xs">
-                    <span className="text-red-500">*</span> Required
-                  </span>
+                  !formValues.password &&
+                  form.getFieldError("password").length === 0 ? (
+                    <span className="text-xs">
+                      <span className="text-red-500">*</span> Required
+                    </span>
+                  ) : null
                 }
               >
                 <Input.Password placeholder="New Password" />
@@ -157,7 +226,7 @@ function SignUpForm() {
               <Button
                 type="primary"
                 htmlType="submit"
-                disabled={isButtonDisabled}
+                disabled={!isFormValid()}
               >
                 Sign Up
               </Button>

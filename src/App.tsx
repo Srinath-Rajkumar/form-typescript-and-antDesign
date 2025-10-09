@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <div className="bg-gray-100  pt-5 pb-5">
-        <EventRegistrationForm />
+        {/* <EventRegistrationForm /> */}
         <SignUpForm />
       </div>
     </>
