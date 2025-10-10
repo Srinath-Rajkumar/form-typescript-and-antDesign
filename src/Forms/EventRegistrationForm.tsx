@@ -26,12 +26,12 @@ function EventRegistrationForm() {
   return (
     <>
       {contextHolder}
-      <div className="mx-20 my-2.5 bg-white">
+      <div className="mx-20 rounded-2xl bg-white">
         <div id="header" className="bg-gray-700 p-2.5 rounded-t-2xl">
-          <p className=" text-white font-medium text-2xl">Event Registration</p>
+          <p className=" text-white font-medium text-2xl">Event Registration - AntDesign</p>
         </div>
         <div id="form" className="mt-5 p-1.5">
-          <Form onFinish={onFinish} form={form}>
+          <Form onFinish={onFinish} form={form} autoComplete="off">
             <div className="flex w-full gap-x-2.5">
               <div className="w-full">
                 <p>First Name:</p>
